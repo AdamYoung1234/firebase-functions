@@ -40,6 +40,13 @@ class Vendors {
         };
       }
 
+      // check for duplicated email
+      if(await this.existed(value.profile.access.email)) {
+        return {
+          error: 'Email has already been used.',
+        };
+      }
+
       const docRef = await this.db.collection('vendors').add(value);
       const doc = await docRef.get();
 
@@ -67,6 +74,23 @@ class Vendors {
       const result = await this.db.collection('vendors').doc(id).set(value);
 
       return result;
+    }
+
+    async getByEmail(email: string) {
+      const docs = await this.db.collection('vendors').where('profile.access.email', '==', email).get();
+      let result = {};
+
+      docs.forEach((doc) => {
+        result = {id: doc.id, data: doc.data()};  
+      })
+
+      return result;
+    }
+
+    async existed(email: string) {
+      const docs = await this.db.collection('vendors').where('profile.access.email', '==', email).get();
+      console.log(docs.size);
+      return docs.size !== 0;
     }
 }
 

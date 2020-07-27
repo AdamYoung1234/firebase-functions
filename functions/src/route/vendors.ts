@@ -36,4 +36,10 @@ app.delete('/:id', async (req, res) => {
   res.json(result);
 });
 
+app.get('/email/:id', async (req, res) => {
+  const result = await Vendors.getByEmail(req.params.id);
+
+  res.json(result);
+});
+
 export default app;
