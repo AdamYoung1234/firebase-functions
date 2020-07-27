@@ -28,7 +28,7 @@ class Vendors {
       return { id:doc.id, data: doc.data() };
     }
 
-    async create(body: object) {
+    async create(body: any) {
       // do data validation
       const { error, value } = schemaValidator.validate(body);
 
@@ -40,8 +40,10 @@ class Vendors {
         };
       }
 
+      const { email } = value.profile.access;
+
       // check for duplicated email
-      if(await this.existed(value.profile.access.email)) {
+      if(await this.existed(email)) {
         return {
           error: 'Email has already been used.',
         };
@@ -59,7 +61,7 @@ class Vendors {
       return result;
     }
 
-    async update(id: string, body: object) {
+    async update(id: string, body: any) {
       // do data validation
       const { error, value } = schemaValidator.validate(body);
 
