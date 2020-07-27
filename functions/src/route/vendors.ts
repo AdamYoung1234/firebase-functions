@@ -1,6 +1,8 @@
 import * as express from 'express';
 
 const app = express();
+const cors = require('cors')({ origin: true });
+app.use(cors)
 
 import { Vendors } from '../db/schema';
 
