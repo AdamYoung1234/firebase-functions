@@ -5,27 +5,27 @@ const app = express();
 import { Vendors } from '../db/schema';
 
 app.get('/', async (req, res) => {
-  const test = await Vendors.getAll();
+  const result = await Vendors.getAll();
 
-  res.json(test);
+  res.json(result);
 });
 
 app.get('/:id', async (req, res) => {
-  const test = await Vendors.get(req.params.id);
+  const result = await Vendors.get(req.params.id);
 
-  res.json(test);
+  res.json(result);
 });
 
 app.put('/:id', async (req, res) => {   
-  const test = await Vendors.update(req.params.id, req.body);
+  const result = await Vendors.update(req.params.id, req.body);
 
-  res.json(test);
+  res.json(result);
 });
 
 app.post('/', async (req, res) => {
-  const test = await Vendors.create(req.body);
+  const result = await Vendors.create(req.body);
 
-  res.json(test);  
+  res.json(result);  
 });
 
 app.delete('/:id', async (req, res) => {
