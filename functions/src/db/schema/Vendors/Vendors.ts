@@ -1,4 +1,5 @@
-import { firestore } from "firebase-admin";
+import { firestore } from 'firebase-admin';
+import schemaValidator from './VendorsSchemaValidator';
 
 class Vendors {
     db: firestore.Firestore;
@@ -28,7 +29,18 @@ class Vendors {
     }
 
     async create(body: object) {
-      const docRef = await this.db.collection('vendors').add(body);
+      // do data validation
+      const { error, value } = schemaValidator.validate(body);
+
+      if(error) {
+        const errorMessages = error.details.map((detail: { message: string; }) => detail.message);
+
+        return {
+          error: errorMessages,
+        };
+      }
+
+      const docRef = await this.db.collection('vendors').add(value);
       const doc = await docRef.get();
 
       return { id: doc.id, data: doc.data() };
@@ -41,7 +53,18 @@ class Vendors {
     }
 
     async update(id: string, body: object) {
-      const result = await this.db.collection('vendors').doc(id).set(body);
+      // do data validation
+      const { error, value } = schemaValidator.validate(body);
+
+      if(error) {
+        const errorMessages = error.details.map((detail: { message: string; }) => detail.message);
+
+        return {
+          error: errorMessages,
+        };
+      }
+
+      const result = await this.db.collection('vendors').doc(id).set(value);
 
       return result;
     }
