@@ -16,7 +16,7 @@ const vendorSchema = Joi.object({
       city: Joi.string().required(),
       state: Joi.string().required().min(2),
       streetAddr: Joi.string().required(),
-      zipCode: Joi.number().min(4).required(),
+      zipCode: Joi.number().min(4).max(4).required(),
     }).required(),
   }).required(),
 });
